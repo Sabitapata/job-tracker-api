@@ -1,0 +1,25 @@
+# Virtual environment
+.venv/
+
+# Secrets and local configuration
+.env
+
+# Local SQLite database
+*.db
+
+# Python cache
+__pycache__/
+*.py[cod]
+
+# Test files
+.pytest_cache/
+.coverage
+
+# VS Code
+.vscode/
+
+.venv/
+.env
+*.db
+__pycache__/
+.pytest_cache/
