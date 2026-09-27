@@ -13,6 +13,7 @@ A secure REST API for managing job applications. Users can create accounts, log 
 - SQLite database persistence with SQLModel
 - Environment-based configuration using `.env`
 - Automated tests using pytest and FastAPI TestClient
+- Streamlit dashboard for registration, login, job-application management, metrics, and status visualization
 
 ## Tech Stack
 
@@ -53,7 +54,9 @@ job_tracker_api/
 │   ├── main.py
 │   ├── models.py
 │   └── schemas.py
-├── tests/
+├── frontend/
+│   └── dashboard.py
+|── tests/
 │   ├── conftest.py
 │   ├── test_applications.py
 │   └── test_users.py
@@ -111,7 +114,7 @@ Generate a secure secret key:
 python -c "import secrets; print(secrets.token_urlsafe(32))"
 ```
 
-### 5. Run the API
+### 5. Run the FastAPI backend
 
 ```bash
 python -m uvicorn app.main:app --reload
@@ -127,6 +130,19 @@ http://127.0.0.1:8000/docs
 
 ```bash
 python -m pytest -v
+```
+### 6. Run the Streamlit frontend
+
+Open a second terminal, activate the virtual environment, and run:
+
+```bash
+streamlit run frontend/dashboard.py
+```
+
+Open the dashboard:
+
+```text
+http://localhost:8501
 ```
 
 ## Example Workflow
