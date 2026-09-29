@@ -9,8 +9,11 @@ from app.models import JobApplication, User
 
 app = FastAPI(
     title="Job Tracker API",
-    description="Track job applications with a Python API and SQLite database",
+    description="API for managing job applications",
     version="1.0.0",
+    docs_url="/docs",
+    redoc_url="/redoc",
+    openapi_url="/openapi.json",
 )
 
 
