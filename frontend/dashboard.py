@@ -4,9 +4,10 @@ import pandas as pd
 import requests
 import streamlit as st
 
-
-API_URL = "https://YOUR-RENDER-URL.onrender.com"
-
+API_URL = st.secrets.get(
+    "API_URL",
+    os.getenv("API_URL", "https://job-tracker-api.onrender.com"),
+)
 
 st.set_page_config(
     page_title="Job Tracker",
@@ -71,6 +72,7 @@ def login(email, password):
 
     detail = response.json().get("detail", "Login failed")
     st.error(detail)
+    return
 
 
 def register(email, password):
