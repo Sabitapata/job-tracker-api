@@ -6,7 +6,7 @@ import streamlit as st
 
 API_URL = st.secrets.get(
     "API_URL",
-    os.getenv("API_URL", "https://job-tracker-api.onrender.com"),
+    os.getenv("API_URL", "https://job-tracker-api-bp11.onrender.com"),
 )
 
 st.set_page_config(
