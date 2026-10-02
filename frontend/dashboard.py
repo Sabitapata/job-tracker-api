@@ -14,6 +14,7 @@ st.set_page_config(
     page_icon="💼",
     layout="wide",
 )
+st.caption(f"Connected API: {API_URL}")
 
 
 def initialize_session_state():
@@ -193,7 +194,7 @@ def delete_application(application_id):
 def show_auth_page():
     st.title("💼 Job Tracker")
     st.caption("Track your job applications in one place.")
-
+    st.caption(f"Connected API: {API_URL}")
     login_tab, register_tab = st.tabs(["Log in", "Create account"])
 
     with login_tab:
