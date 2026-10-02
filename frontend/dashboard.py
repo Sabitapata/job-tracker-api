@@ -92,9 +92,15 @@ def register(email, password):
         st.success("Account created. You can now log in.")
         return
 
-    detail = response.json().get("detail", "Registration failed")
-    st.error(detail)
+    try:
+        detail = response.json().get("detail", "Registration failed")
+    except requests.exceptions.JSONDecodeError:
+        detail = (
+            f"Registration failed (HTTP {response.status_code}). "
+            f"Server response: {response.text[:200]}"
+        )
 
+    st.error(detail)
 
 def logout():
     st.session_state.token = None
