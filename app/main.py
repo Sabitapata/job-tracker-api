@@ -39,3 +39,16 @@ def health_check():
 
 app.include_router(applications_router)
 app.include_router(users_router)
+@app.get("/debug/routes")
+def debug_routes():
+    return {
+        "routes": [
+            {
+                "path": route.path,
+                "methods": sorted(route.methods)
+                if hasattr(route, "methods")
+                else [],
+            }
+            for route in app.routes
+        ]
+    }
