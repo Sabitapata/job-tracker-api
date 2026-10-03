@@ -338,7 +338,12 @@ def show_dashboard():
 
 
 initialize_session_state()
+with st.sidebar:
+    st.write(f"Logged in as: {st.session_state.get('user_name', 'User')}")
 
+    if st.button("Logout"):
+        st.session_state.clear()
+        st.rerun()
 if st.session_state.logged_in:
     show_dashboard()
 else:
