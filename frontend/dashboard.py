@@ -1,4 +1,6 @@
+import email
 import os
+from urllib import response
 
 import pandas as pd
 import requests
@@ -68,10 +70,14 @@ def login(email, password):
         st.session_state.logged_in = True
         st.success("Login successful.")
         st.rerun()
+        return
 
-    detail = response.json().get("detail", "Login failed")
+    try:
+        detail = response.json().get("detail", "Login failed")
+    except requests.exceptions.JSONDecodeError:
+        detail = "Login failed. Please verify your email and password."
+
     st.error(detail)
-    return
 
 
 def register(email, password):
@@ -192,7 +198,6 @@ def delete_application(application_id):
 def show_auth_page():
     st.title("💼 Job Tracker")
     st.caption("Track your job applications in one place.")
-    st.caption(f"Connected API: {API_URL}")
     login_tab, register_tab = st.tabs(["Log in", "Create account"])
 
     with login_tab:
@@ -338,12 +343,7 @@ def show_dashboard():
 
 
 initialize_session_state()
-with st.sidebar:
-    st.write(f"Logged in as: {st.session_state.get('user_name', 'User')}")
 
-    if st.button("Logout"):
-        st.session_state.clear()
-        st.rerun()
 if st.session_state.logged_in:
     show_dashboard()
 else:
