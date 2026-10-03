@@ -13,7 +13,6 @@ st.set_page_config(
     page_icon="💼",
     layout="wide",
 )
-st.caption(f"Connected API: {API_URL}")
 
 
 def initialize_session_state():
