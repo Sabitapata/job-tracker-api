@@ -1,6 +1,6 @@
 from typing import Literal, Optional
 
-from pydantic import BaseModel, EmailStr, Field, field_validator
+from pydantic import BaseModel, EmailStr, Field, HttpUrl
 
 
 class UserCreate(BaseModel):
@@ -11,11 +11,18 @@ class UserCreate(BaseModel):
 class UserOut(BaseModel):
     id: int
     email: EmailStr
+    linkedin_url: Optional[str] = None
+    github_url: Optional[str] = None
 
 
 class Token(BaseModel):
     access_token: str
     token_type: str
+
+
+class UserProfileUpdate(BaseModel):
+    linkedin_url: Optional[HttpUrl] = None
+    github_url: Optional[HttpUrl] = None
 
 
 class JobApplicationOut(BaseModel):
@@ -33,26 +40,6 @@ class JobApplicationCreate(BaseModel):
     status: Literal["Applied", "Interview", "Offer", "Rejected"] = "Applied"
     notes: Optional[str] = Field(default=None, max_length=1000)
 
-    @field_validator("company", "role")
-    @classmethod
-    def validate_not_blank(cls, value: str) -> str:
-        value = value.strip()
-
-        if len(value) < 2:
-            raise ValueError("must contain at least 2 characters")
-
-        return value
-
-    @field_validator("notes")
-    @classmethod
-    def validate_notes(cls, value: Optional[str]) -> Optional[str]:
-        if value is None:
-            return None
-
-        value = value.strip()
-
-        return value or None
-
 
 class JobApplicationUpdate(BaseModel):
     company: Optional[str] = Field(default=None, min_length=2, max_length=100)
@@ -61,26 +48,3 @@ class JobApplicationUpdate(BaseModel):
         Literal["Applied", "Interview", "Offer", "Rejected"]
     ] = None
     notes: Optional[str] = Field(default=None, max_length=1000)
-
-    @field_validator("company", "role")
-    @classmethod
-    def validate_not_blank(cls, value: Optional[str]) -> Optional[str]:
-        if value is None:
-            return None
-
-        value = value.strip()
-
-        if len(value) < 2:
-            raise ValueError("must contain at least 2 characters")
-
-        return value
-
-    @field_validator("notes")
-    @classmethod
-    def validate_notes(cls, value: Optional[str]) -> Optional[str]:
-        if value is None:
-            return None
-
-        value = value.strip()
-
-        return value or None
