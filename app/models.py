@@ -5,6 +5,8 @@ from sqlmodel import Field, SQLModel
 
 class User(SQLModel, table=True):
     id: Optional[int] = Field(default=None, primary_key=True)
+    linkedin_url: Optional[str] = None
+    github_url: Optional[str] = None
     email: str = Field(index=True, unique=True)
     hashed_password: str
 

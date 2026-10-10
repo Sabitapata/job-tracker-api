@@ -1,9 +1,10 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordRequestForm
 from sqlmodel import Session, select
-
+from app.schemas import UserProfileUpdate
 from app.auth import (
     create_access_token,
+    get_current_user,
     get_password_hash,
     verify_password,
 )
@@ -74,3 +75,25 @@ def login_user(
         "access_token": access_token,
         "token_type": "bearer",
     }
+@router.get("/me", response_model=UserOut)
+def read_my_profile(
+    current_user: User = Depends(get_current_user),
+):
+    return current_user
+
+@router.patch("/me", response_model=UserOut)
+def update_my_profile(
+    profile_update: UserProfileUpdate,
+    session: Session = Depends(get_session),
+    current_user: User = Depends(get_current_user),
+):
+    update_data = profile_update.model_dump(exclude_unset=True)
+
+    for field_name, value in update_data.items():
+        setattr(current_user, field_name, str(value) if value else None)
+
+    session.add(current_user)
+    session.commit()
+    session.refresh(current_user)
+
+    return current_user
