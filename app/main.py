@@ -1,3 +1,4 @@
+from contextlib import asynccontextmanager
 from fastapi import FastAPI
 
 from app.database import create_db_and_tables
@@ -7,6 +8,12 @@ from app.routers.users import router as users_router
 from app.models import JobApplication, User
 
 
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    create_db_and_tables()
+    yield
+
+
 app = FastAPI(
     title="Job Tracker API",
     description="API for managing job applications",
@@ -14,12 +21,8 @@ app = FastAPI(
     docs_url="/docs",
     redoc_url="/redoc",
     openapi_url="/openapi.json",
+    lifespan=lifespan,
 )
-
-
-@app.on_event("startup")
-def on_startup():
-    create_db_and_tables()
 
 
 @app.get("/")

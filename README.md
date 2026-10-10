@@ -32,6 +32,8 @@ A secure REST API for managing job applications. Users can create accounts, log 
 |---|---|---|---|
 | `POST` | `/users/register` | Create a new user account | No |
 | `POST` | `/users/login` | Log in and receive JWT token | No |
+| `GET` | `/users/me` | Get current user profile | Yes |
+| `PATCH` | `/users/me` | Update user profile links (LinkedIn, GitHub) | Yes |
 | `GET` | `/` | API welcome route | No |
 | `GET` | `/health` | Health-check route | No |
 | `POST` | `/applications/` | Create a job application | Yes |
@@ -56,7 +58,7 @@ job_tracker_api/
 │   └── schemas.py
 ├── frontend/
 │   └── dashboard.py
-|── tests/
+├── tests/
 │   ├── conftest.py
 │   ├── test_applications.py
 │   └── test_users.py

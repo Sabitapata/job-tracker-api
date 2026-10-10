@@ -1,6 +1,4 @@
-import email
 import os
-from urllib import response
 
 import pandas as pd
 import requests
@@ -290,7 +288,7 @@ def show_dashboard():
                     company.strip(),
                     role.strip(),
                     app_status,
-                    notes.strip(),
+                    notes.strip() if notes else None,
                 )
 
     with right_column:
